@@ -129,16 +129,36 @@ const App = () => {
   const [score, setScore] = useState(0);
 
   const changeChar = () => {
-    
+    let num = Math.floor(1+Math.random()*19);
+    characters.forEach((ele, idx) => {
+      if(ele.id == num) {
+        setCurrChar({
+          name: ele.name,
+          role: ele.role,
+          abilities: ele.abilities,
+          options: [
+            { name: ele.name },
+            { name: characters[(idx+1) % 19].name },
+            { name: characters[(idx+2) % 19].name },
+            { name: characters[(idx+3) % 19].name },
+          ].sort(() => (Math.random() > .4) ? 1 : -1)
+        })
+      }
+    })
   };
 
   const scoreHandler = (e) => {
-   
+   let result = currChar.name
+   if(result === e.target.innerText) {
+    setScore(score+1);
+   } else {
+    setScore(score-1);
+   }
   };
 
   useEffect(() => {
-   
-  });
+   changeChar();
+  },[score]);
   return (
     <div id="main">
       <div className="container">
